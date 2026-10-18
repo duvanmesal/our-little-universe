@@ -1,0 +1,79 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SolarSystem from '../components/universe/SolarSystem';
+import { planets } from '../data/universe';
+import { memories } from '../data/memories';
+import { timeline } from '../data/timeline';
+import { songs } from '../data/songs';
+import { adventures } from '../data/adventures';
+import { dreams } from '../data/dreams';
+import { dateIdeas } from '../data/dateIdeas';
+---
+
+<Layout>
+  <main>
+    <SolarSystem client:load />
+    <noscript>
+      <article class="no-script">
+        <h1>Our Little Universe</h1>
+        <p>A small universe made of memories, dreams and us.</p>
+        <nav>
+          {planets.map((p) => (
+            <a href={`#static-${p.id}`}>{p.name}</a>
+          ))}
+        </nav>
+        <section id="static-memories">
+          <h2>Memories</h2>
+          {memories.map((m) => (
+            <figure>
+              <img src={m.image} alt={m.alt} width="1920" height="1080" />
+              <figcaption>
+                <h3>{m.title}</h3>
+                {m.description}
+              </figcaption>
+            </figure>
+          ))}
+        </section>
+        <section id="static-story">
+          <h2>Our Story</h2>
+          {timeline.map((m) => (
+            <p>
+              {m.date} — {m.title}: {m.description}
+            </p>
+          ))}
+        </section>
+        <section id="static-songs">
+          <h2>Our Songs</h2>
+          {songs.map((s) => (
+            <p>
+              {s.title} — {s.artist}. {s.memory}
+            </p>
+          ))}
+        </section>
+        <section id="static-adventures">
+          <h2>Adventures</h2>
+          {adventures.map((a) => (
+            <p>
+              {a.name} — {a.status}. {a.description}
+            </p>
+          ))}
+        </section>
+        <section id="static-dreams">
+          <h2>Dreams</h2>
+          {dreams.map((d) => (
+            <p>{d.text}</p>
+          ))}
+        </section>
+        <section id="static-date">
+          <h2>Date Orbit</h2>
+          <p>Choose a little adventure. Enable JavaScript for a random selection.</p>
+          {dateIdeas.map((d) => (
+            <p>
+              {d.title}: {d.detail}
+            </p>
+          ))}
+        </section>
+      </article>
+    </noscript>
+  </main>
+</Layout>

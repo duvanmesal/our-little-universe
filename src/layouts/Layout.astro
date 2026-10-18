@@ -1,0 +1,50 @@
+---
+import { couple } from '../config/couple';
+import '@fontsource/cormorant-garamond/400.css';
+import '@fontsource/cormorant-garamond/400-italic.css';
+import '@fontsource/manrope/400.css';
+import '@fontsource/manrope/500.css';
+import '../styles/global.css';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{couple.title} — {couple.names.join(' & ')}</title>
+    <meta name="description" content={couple.tagline} />
+    <meta name="theme-color" content="#080c16" />
+    <meta name="robots" content={couple.private ? 'noindex, nofollow' : 'index, follow'} />
+    <meta property="og:title" content={couple.title} />
+    <meta property="og:description" content={couple.tagline} />
+    <meta property="og:type" content="website" />
+    {couple.siteUrl && <link rel="canonical" href={couple.siteUrl} />}
+    {couple.siteUrl && <meta property="og:url" content={couple.siteUrl} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <a class="skip-link" href="#orbit-navigation">
+      Skip to planet navigation
+    </a>
+    <header class="site-header">
+      <a href="/" class="wordmark" aria-label="Our Little Universe home">
+        <span class="brand-star" aria-hidden="true">
+          ✧
+        </span>
+        <span>
+          OUR LITTLE
+          <br />
+          UNIVERSE
+        </span>
+      </a>
+      <span class="header-note">
+        Somewhere in the infinite, <em>there’s us.</em>
+      </span>
+      <span class="header-dedication">
+        {couple.names[0]} <span aria-hidden="true">×</span> {couple.names[1]}
+      </span>
+    </header>
+    <slot />
+  </body>
+</html>

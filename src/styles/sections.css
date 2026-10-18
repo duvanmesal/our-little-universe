@@ -1,0 +1,435 @@
+.planet-content {
+  position: relative;
+  z-index: 15;
+  width: 40%;
+  max-width: 520px;
+  margin: 145px 7% 210px auto;
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.65s,
+    transform 0.65s;
+  pointer-events: none;
+}
+.planet-content.is-settled {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.back-button {
+  font-size: 10px;
+  margin-bottom: 32px;
+}
+.section-heading {
+  margin-bottom: 27px;
+}
+.section-heading h2 {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 4.5vw, 70px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -1.7px;
+  margin-top: 9px;
+}
+.section-heading h2 > span {
+  color: var(--color-gold);
+}
+.planet-content h3 {
+  font-family: var(--font-display);
+  font-size: 27px;
+  line-height: 1.1;
+  font-weight: 400;
+}
+.planet-content p {
+  color: var(--color-muted);
+  font-size: 11px;
+  line-height: 1.9;
+  max-width: 46ch;
+}
+.has-selection {
+  height: auto;
+  min-height: 100svh;
+}
+.has-selection::after {
+  content: '';
+  position: absolute;
+  z-index: 11;
+  top: 90px;
+  bottom: 170px;
+  left: 48%;
+  right: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--color-panel) 25%, var(--color-panel));
+  opacity: 0.75;
+}
+.memory-main {
+  animation: reveal 0.5s both;
+}
+.memory-photo {
+  position: relative;
+  isolation: isolate;
+  margin-bottom: 22px;
+  background: var(--color-space);
+  border-radius: 8px;
+  overflow: hidden;
+  /* Feather the supplied blurred margins into the sky without cropping the photo. */
+  mask-image:
+    linear-gradient(90deg, transparent, black 7%, black 93%, transparent),
+    linear-gradient(180deg, transparent, black 5%, black 88%, transparent);
+  mask-composite: intersect;
+}
+.memory-photo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 42%,
+      color-mix(in srgb, var(--color-space) 65%, transparent) 100%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-deep) 30%, transparent),
+      transparent 32%,
+      transparent 68%,
+      color-mix(in srgb, var(--color-deep) 30%, transparent)
+    );
+}
+.memory-main .memory-photo img {
+  margin: 0;
+  border-radius: 0;
+  object-fit: contain;
+  filter: saturate(0.94) contrast(1.025);
+}
+.memory-main img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 2px;
+  display: block;
+  margin-bottom: 18px;
+}
+.memory-main h3 {
+  margin: 7px 0 9px;
+}
+.gallery-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 17px;
+  border-top: 1px solid var(--color-line);
+  padding-top: 10px;
+}
+.gallery-controls > div {
+  display: flex;
+}
+.gallery-dot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 32px;
+}
+.gallery-dot > span {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-faint);
+}
+.gallery-dot.active > span {
+  background: var(--color-gold);
+  box-shadow: 0 0 0 4px rgb(218 198 164 / 0.08);
+}
+.timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.timeline li {
+  display: flex;
+  position: relative;
+  gap: 21px;
+  padding: 0 0 20px;
+}
+.timeline li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 30px;
+  bottom: 2px;
+  width: 1px;
+  background: var(--color-line);
+}
+.timeline-star {
+  /* Fixed marker column: the rail below is centred on this width, not on the glyph. */
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 22px;
+  color: var(--color-gold);
+  font-size: 22px;
+  line-height: 1;
+  overflow: visible;
+}
+.timeline li > div {
+  flex: 1;
+  min-width: 0;
+}
+.timeline h3 {
+  font-size: 23px;
+  margin: 5px 0;
+}
+.timeline p {
+  font-size: 10px;
+}
+.timeline .small-meta {
+  font-size: 8px;
+  color: var(--color-muted);
+}
+.song-list {
+  display: grid;
+  gap: 24px;
+}
+.song {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+  padding-bottom: 21px;
+  border-bottom: 1px solid var(--color-line);
+}
+.song h3 {
+  font-size: 24px;
+  margin-bottom: 5px;
+}
+.song .small-meta {
+  font-size: 8px;
+  color: var(--color-muted);
+}
+.song p {
+  font-size: 10px;
+  margin-top: 10px;
+}
+.record {
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  width: 73px;
+  height: 73px;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle,
+    transparent 0 3px,
+    rgb(177 161 211 / 0.16) 4px,
+    transparent 5px
+  );
+  border: 1px solid var(--color-line);
+  color: var(--color-lavender);
+}
+.record > span {
+  background: var(--color-deep);
+  border: 1px solid var(--color-line);
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  font-size: 16px;
+}
+.record:hover {
+  border-color: var(--color-lavender);
+}
+.playing .record {
+  box-shadow: 0 0 25px rgb(177 161 211 / 0.1);
+}
+.planet-content .quiet-note {
+  font-size: 9px;
+  line-height: 1.8;
+  margin-top: 20px;
+  color: var(--color-faint);
+}
+.destination-orbit {
+  position: relative;
+  height: 205px;
+  margin: 10px 20px 20px;
+}
+.destination-orbit::before,
+.destination-orbit::after {
+  content: '';
+  position: absolute;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  inset: 40px 20px;
+  transform: rotate(-20deg);
+}
+.destination-orbit::after {
+  inset: 10px 70px;
+  transform: rotate(30deg);
+}
+.destination-core {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--color-gold);
+  font-size: 44px;
+}
+.destination-point {
+  position: absolute;
+  font-size: 9px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-muted);
+  padding: 15px;
+}
+.destination-point > span {
+  width: 6px;
+  height: 6px;
+  display: block;
+  border: 1px solid var(--color-muted);
+  border-radius: 50%;
+  background: var(--color-deep);
+}
+.destination-point.active {
+  color: var(--color-ink);
+}
+.destination-point.active > span {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+  box-shadow: 0 0 15px var(--color-gold);
+}
+.point-0 {
+  top: 32%;
+  left: 0;
+}
+.point-1 {
+  bottom: 6%;
+  left: 40%;
+}
+.point-2 {
+  right: 0;
+  top: 8%;
+}
+.destination-detail {
+  animation: reveal 0.5s both;
+}
+.destination-detail h3 {
+  margin: 10px 0 12px;
+}
+.section-lead {
+  margin-bottom: 17px;
+}
+.dream-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.dream-list li {
+  border-bottom: 1px solid var(--color-line);
+}
+.dream-list button {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 13px;
+  padding: 19px 0;
+  text-align: left;
+  font-size: 11px;
+}
+.dream-check {
+  font-size: 25px;
+  color: var(--color-gold);
+  line-height: 1;
+}
+.dream-state {
+  margin-left: auto;
+  color: var(--color-faint);
+  font-size: 8px;
+  white-space: nowrap;
+}
+.dream-list button[aria-pressed='true'] {
+  color: var(--color-muted);
+}
+.dream-list button:hover .dream-check {
+  transform: scale(1.2);
+}
+.dream-check {
+  transition: transform 0.2s;
+}
+.date-roulette {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 140px;
+  width: 230px;
+  margin: 0 auto 14px;
+}
+.date-roulette > span {
+  font-size: 45px;
+  color: var(--color-gold);
+}
+.date-roulette i {
+  position: absolute;
+  inset: 27px 15px;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  transform: rotate(-23deg);
+}
+.date-roulette i:last-child {
+  inset: 15px 49px;
+  transform: rotate(35deg);
+}
+.date-roulette i::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  left: 10px;
+  top: 12px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  box-shadow: 0 0 15px rgb(218 198 164 / 0.3);
+}
+.date-roulette.spinning {
+  animation: spin 1.1s ease-in-out infinite;
+}
+.date-result {
+  min-height: 158px;
+}
+.date-result h3 {
+  font-size: 32px;
+  margin: 11px 0 12px;
+}
+.date-generator > .primary-button {
+  margin-top: 12px;
+}
+.us-content h3 {
+  font-size: 53px;
+  margin: 18px 0;
+}
+.us-content h3 > span {
+  color: var(--color-gold);
+  font-style: italic;
+}
+.us-date {
+  margin-top: 38px;
+}
+.us-date p {
+  font-family: var(--font-display);
+  font-size: 27px;
+  color: var(--color-ink);
+  margin-top: 4px;
+}
+.us-symbol {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 65px;
+  color: var(--color-gold);
+  margin-top: 28px;
+  opacity: 0.65;
+}

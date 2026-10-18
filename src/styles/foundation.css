@@ -1,0 +1,864 @@
+:root {
+  color-scheme: dark;
+  --color-space: #080c16;
+  --color-deep: #0c1222;
+  --color-ink: #efede9;
+  --color-muted: #a6a9b8;
+  --color-faint: #737b90;
+  --color-gold: #dac6a4;
+  --color-lavender: #bab4d0;
+  --color-line: rgb(165 175 207 / 0.17);
+  --color-panel: rgb(9 14 25 / 0.9);
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Manrope', sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  background: var(--color-space);
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+button {
+  border: 0;
+  background: none;
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 1px solid var(--color-gold);
+  outline-offset: 6px;
+}
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}
+button,
+a {
+  touch-action: manipulation;
+}
+::selection {
+  background: var(--color-lavender);
+  color: var(--color-space);
+}
+.site-header {
+  position: absolute;
+  z-index: 30;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 112px;
+  padding: 33px 4%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.site-header > * {
+  pointer-events: auto;
+}
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 10px;
+  letter-spacing: 2.8px;
+  line-height: 1.7;
+}
+.brand-star {
+  font-size: 39px;
+  color: var(--color-gold);
+  font-weight: 400;
+}
+.header-note {
+  font-family: var(--font-display);
+  font-size: 17px;
+  color: var(--color-muted);
+}
+.header-note em {
+  font-weight: 400;
+  color: var(--color-ink);
+}
+.header-dedication {
+  font-size: 11px;
+  letter-spacing: 0.5px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.header-dedication > span {
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+.skip-link {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 100;
+  transform: translateY(-150%);
+  background: var(--color-space);
+  padding: 15px;
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
+.universe-app {
+  position: relative;
+  isolation: isolate;
+  min-height: 850px;
+  height: 100svh;
+  overflow: hidden;
+}
+.space-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 51% 61%, rgb(36 37 55 / 0.28), transparent 65%), var(--color-space);
+}
+.nebula {
+  position: absolute;
+  pointer-events: none;
+  filter: blur(65px);
+  opacity: 0.2;
+  transform: rotate(-24deg);
+  border-radius: 50%;
+}
+.nebula-one {
+  width: 80%;
+  height: 30%;
+  top: 44%;
+  left: 18%;
+  background: radial-gradient(ellipse, rgb(91 66 112 / 0.75), transparent 65%);
+}
+.nebula-two {
+  width: 65%;
+  height: 23%;
+  top: 43%;
+  left: -24%;
+  background: radial-gradient(ellipse, rgb(51 74 111 / 0.6), transparent 65%);
+}
+.star-dust {
+  position: absolute;
+  inset: 0;
+  opacity: 0.5;
+  background-image:
+    radial-gradient(1px 1px at 14% 19%, var(--color-muted) 75%, transparent),
+    radial-gradient(1px 1px at 36% 8%, var(--color-ink) 75%, transparent),
+    radial-gradient(1px 1px at 76% 25%, var(--color-ink) 75%, transparent),
+    radial-gradient(1px 1px at 66% 54%, var(--color-ink) 75%, transparent);
+  background-size:
+    379px 337px,
+    497px 417px,
+    631px 331px,
+    739px 539px;
+}
+.scene-stage {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 24%;
+  bottom: 115px;
+  transition:
+    top 1.4s ease,
+    bottom 1.4s ease,
+    opacity 1.2s ease;
+  touch-action: none;
+}
+.mode-explore .scene-stage {
+  top: 10%;
+  bottom: 110px;
+}
+.has-selection .scene-stage {
+  top: 0;
+  bottom: 0;
+}
+.mode-ending .scene-stage {
+  top: 26%;
+  bottom: 100px;
+  opacity: 0.6;
+}
+.scene-stage canvas {
+  display: block;
+  outline: none;
+  cursor: grab;
+}
+.scene-stage canvas:active {
+  cursor: grabbing;
+}
+.intro-copy {
+  position: absolute;
+  top: 16%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  z-index: 12;
+  pointer-events: none;
+  animation: reveal 1.3s both;
+}
+.intro-copy button {
+  pointer-events: auto;
+}
+.intro-kicker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+.intro-kicker > span {
+  width: 24px;
+  height: 1px;
+  background: var(--color-line);
+}
+.intro-copy h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(56px, 6.2vw, 104px);
+  line-height: 1.05;
+  letter-spacing: -3px;
+  margin: 14px 0 14px;
+  position: relative;
+  display: inline-block;
+}
+.title-star {
+  position: absolute;
+  font-size: 26px;
+  color: var(--color-gold);
+  right: -33px;
+  top: 6px;
+}
+.intro-copy p {
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  color: var(--color-muted);
+}
+.primary-button {
+  border: 1px solid rgb(218 198 164 / 0.45);
+  border-radius: 3px;
+  min-height: 45px;
+  padding: 0 23px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  background: rgb(218 198 164 / 0.035);
+  transition:
+    background 0.25s,
+    border-color 0.25s,
+    transform 0.25s;
+}
+.primary-button:hover {
+  background: rgb(218 198 164 / 0.12);
+  border-color: var(--color-gold);
+  transform: translateY(-2px);
+}
+.primary-button > span {
+  font-size: 19px;
+  font-weight: 400;
+}
+.intro-copy .primary-button {
+  margin-top: 26px;
+}
+.planet-label {
+  padding: 7px 14px;
+  text-align: center;
+  white-space: nowrap;
+  transition:
+    opacity 0.25s,
+    color 0.25s,
+    transform 0.25s;
+  min-width: 80px;
+}
+.planet-label strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  color: var(--color-ink);
+  text-shadow: 0 1px 12px var(--color-space);
+}
+.planet-label span {
+  display: block;
+  font-size: 8px;
+  letter-spacing: 0.35px;
+  color: var(--color-muted);
+  margin-top: 4px;
+  text-shadow: 0 1px 6px var(--color-space);
+}
+.planet-label:hover,
+.planet-label.is-hovered {
+  transform: translateY(-3px);
+}
+.planet-label:hover strong {
+  color: var(--color-gold);
+}
+.sun-label strong {
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--color-gold);
+}
+.sun-label span {
+  font-size: 8px;
+}
+.sun-label {
+  margin-top: 1px;
+}
+.universe-footer {
+  position: absolute;
+  bottom: 0;
+  left: 4%;
+  right: 4%;
+  z-index: 20;
+  padding-bottom: 19px;
+}
+.footer-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+  gap: 12px;
+}
+.explore-hint {
+  font-size: 9px;
+  letter-spacing: 0.6px;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+.hint-cross {
+  font-size: 16px;
+  color: var(--color-faint);
+}
+.text-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  font-size: 10px;
+  color: var(--color-muted);
+  padding: 6px 0;
+  line-height: 1.5;
+  transition: color 0.2s;
+}
+.text-button:hover {
+  color: var(--color-ink);
+}
+.text-button > span {
+  font-size: 16px;
+}
+.ending-link {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-style: italic;
+  color: var(--color-muted);
+}
+.ending-link > span {
+  font-family: var(--font-body);
+  font-style: normal;
+  margin-left: 4px;
+  font-size: 13px;
+}
+.orbit-navigation {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  min-height: 66px;
+  gap: 20px;
+  background: linear-gradient(90deg, rgb(8 12 22 / 0.8), rgb(8 12 22 / 0.1), rgb(8 12 22 / 0.8));
+}
+.navigator-caption {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--color-faint);
+  font-size: 9px;
+  white-space: nowrap;
+  letter-spacing: 0.6px;
+}
+.navigator-caption > span {
+  font-size: 20px;
+  color: var(--color-muted);
+}
+.planet-nav-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2.3vw, 40px);
+  flex: 1;
+}
+.planet-nav-list button {
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 9px;
+  font-size: 10px;
+  min-height: 52px;
+  padding: 0 3px;
+  color: var(--color-muted);
+  transition: color 0.25s;
+}
+.planet-nav-list button:hover,
+.planet-nav-list button.active {
+  color: var(--color-ink);
+}
+.planet-nav-list button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -7px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: var(--color-gold);
+}
+.nav-planet {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, var(--planet-color), var(--color-space));
+  box-shadow: 0 0 9px rgb(215 207 233 / 0.06);
+}
+.visited-dot {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  bottom: 7px;
+  left: 50%;
+  opacity: 0;
+}
+.visited .visited-dot {
+  opacity: 0.65;
+}
+.navigator-count {
+  font-size: 11px;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+.navigator-count > span {
+  color: var(--color-faint);
+  font-size: 9px;
+}
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  color: var(--color-faint);
+}
+.footer-coordinate {
+  display: flex;
+  gap: 10px;
+}
+.universe-tools {
+  position: absolute;
+  right: 4%;
+  top: 45%;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.tool-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--color-line);
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  position: relative;
+  color: var(--color-muted);
+}
+.tool-button:hover {
+  color: var(--color-gold);
+  border-color: var(--color-gold);
+}
+.tool-button > span:first-child {
+  font-size: 15px;
+}
+.tool-description {
+  position: absolute;
+  right: 46px;
+  font-size: 9px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+.tool-button:hover .tool-description,
+.tool-button:focus-visible .tool-description {
+  opacity: 1;
+}
+.constellation-button {
+  border: 0;
+}
+.constellation-button > span:first-child {
+  font-size: 28px;
+}
+.explore-copy {
+  position: absolute;
+  left: 6%;
+  top: 16%;
+  z-index: 12;
+  pointer-events: none;
+  animation: reveal 1s both;
+}
+.explore-copy h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 36px;
+  letter-spacing: -0.7px;
+  margin: 9px 0;
+}
+.explore-copy p {
+  color: var(--color-muted);
+  font-size: 11px;
+}
+.small-meta {
+  display: block;
+  color: var(--color-gold);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+}
+.has-selection .universe-tools {
+  left: 4%;
+  right: auto;
+  top: 40%;
+}
+.ending-copy {
+  position: relative;
+  text-align: center;
+  margin: 120px auto 0;
+  z-index: 14;
+  max-width: 750px;
+  animation: reveal 2s both;
+  pointer-events: none;
+}
+.ending-copy button {
+  pointer-events: auto;
+}
+.ending-copy .back-button {
+  display: block;
+  margin: 0 auto 10px;
+}
+.ending-star {
+  display: block;
+  color: var(--color-gold);
+  font-size: 34px;
+  margin: 14px auto;
+}
+.ending-copy h1 {
+  font-family: var(--font-display);
+  font-size: clamp(44px, 5vw, 76px);
+  font-weight: 400;
+  letter-spacing: -1.5px;
+  line-height: 1.02;
+}
+.ending-copy p {
+  font-family: var(--font-display);
+  font-size: 25px;
+  color: var(--color-muted);
+  margin-top: 15px;
+  animation: reveal 1.5s 0.6s both;
+}
+.ending-names {
+  font-family: var(--font-display);
+  font-size: 27px;
+  margin: 22px 0 5px;
+  animation: reveal 1.5s 1.2s both;
+}
+.ending-copy > .small-meta {
+  font-size: 8px;
+  animation: reveal 1.5s 1.5s both;
+}
+.scene-loader {
+  position: absolute;
+  z-index: 15;
+  left: 50%;
+  top: 60%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--color-muted);
+}
+.scene-loader > span {
+  display: block;
+  font-size: 36px;
+  color: var(--color-gold);
+  margin-bottom: 15px;
+  animation: breathe 2s infinite;
+}
+.prologue {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  background: var(--color-space);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 30px;
+}
+.prologue > div {
+  animation: prologue 2.4s both;
+}
+.prologue p {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 45px);
+  color: var(--color-ink);
+}
+.birth-star {
+  display: block;
+  font-size: 34px;
+  color: var(--color-gold);
+  margin-bottom: 30px;
+  filter: drop-shadow(0 0 18px var(--color-gold));
+}
+.prologue > .text-button {
+  position: absolute;
+  bottom: 50px;
+}
+.in-prologue .universe-footer,
+.in-prologue .universe-tools {
+  visibility: hidden;
+}
+.secret-message {
+  position: fixed;
+  z-index: 60;
+  bottom: 160px;
+  left: 50%;
+  transform: translate(-50%, 10px);
+  padding: 18px 27px;
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 20px;
+  max-width: calc(100% - 40px);
+  width: max-content;
+  text-align: center;
+  opacity: 0;
+  transition:
+    opacity 0.4s,
+    transform 0.4s;
+  pointer-events: none;
+}
+.secret-message.visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.shooting-star {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 100px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-muted));
+  opacity: 0;
+  animation: shooting 36s 12s infinite;
+  transform: rotate(25deg);
+}
+.fallback-universe {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 1100px;
+  margin: auto;
+}
+.fallback-universe > svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: var(--color-line);
+}
+.fallback-planet {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+}
+.fallback-planet > span {
+  font-size: 44px;
+}
+.fallback-planet strong {
+  font-size: 11px;
+  font-weight: 400;
+}
+.fallback-planet small {
+  font-size: 8px;
+  color: var(--color-muted);
+  margin-top: 4px;
+}
+.fallback-0 {
+  left: 27%;
+  top: 41%;
+}
+.fallback-1 {
+  right: 28%;
+  top: 43%;
+}
+.fallback-2 {
+  left: 43%;
+  top: 12%;
+}
+.fallback-3 {
+  left: 13%;
+  top: 23%;
+}
+.fallback-4 {
+  right: 16%;
+  top: 15%;
+}
+.fallback-5 {
+  left: 28%;
+  bottom: 8%;
+}
+.fallback-sun {
+  position: absolute;
+  left: 47%;
+  top: 48%;
+  font-family: var(--font-display);
+  font-size: 25px;
+  color: var(--color-gold);
+}
+.fallback-sun > span {
+  display: block;
+  font-size: 20px;
+}
+.fallback-note {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  left: 0;
+  right: 0;
+  font-size: 9px;
+  color: var(--color-muted);
+}
+.has-selection .fallback-universe {
+  opacity: 0.25;
+  pointer-events: none;
+}
+.no-script {
+  max-width: 800px;
+  margin: 130px auto 50px;
+  padding: 24px;
+}
+.no-script nav {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.no-script h1,
+.no-script h2 {
+  font-family: var(--font-display);
+  margin: 30px 0 15px;
+  font-size: 40px;
+}
+.no-script p {
+  line-height: 2;
+}
+.no-script img {
+  width: 100%;
+  height: auto;
+}
+.no-script section {
+  margin-bottom: 40px;
+}
+body:has(.no-script) .universe-app {
+  display: none;
+}
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes prologue {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  35%,
+  85% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes breathe {
+  50% {
+    opacity: 0.35;
+    transform: scale(0.88);
+  }
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes shooting {
+  0%,
+  2%,
+  100% {
+    opacity: 0;
+    transform: translate(10vw, 0) rotate(25deg);
+  }
+  .3% {
+    opacity: 0.65;
+  }
+  1.9% {
+    opacity: 0;
+    transform: translate(75vw, 35vh) rotate(25deg);
+  }
+}
