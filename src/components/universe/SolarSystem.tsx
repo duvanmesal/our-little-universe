@@ -4,6 +4,7 @@ import { planets } from '../../data/universe';
 import type { Destination, Mode } from '../../types/universe';
 import SceneBoundary from './SceneBoundary';
 import FallbackUniverse from './FallbackUniverse';
+import Journey from './Journey';
 import { motion as motionConfig } from '../../config/motion';
 import { useRetainedValue } from '../../hooks/useRetainedValue';
 import Constellations from '../constellations/Constellations';
@@ -18,12 +19,11 @@ export default function SolarSystem() {
   const [mode, setMode] = useState<Mode>('intro');
   const [mounted, setMounted] = useState(false);
   const [selected, setSelected] = useState<Destination | null>(null);
-  const [phase, setPhase] = useState(0);
+  const [journey, setJourney] = useState<'story' | 'revealing' | 'done'>('story');
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
-  const [systemReduced, setSystemReduced] = useState(false);
-  const [fullMotion, setFullMotion] = useState(false);
-  const reduced = systemReduced && !fullMotion;
+  const [fullMotion, setFullMotion] = useState(true);
+  const reduced = !fullMotion;
   const [paused, setPaused] = useState(false);
   const [mobile, setMobile] = useState(false);
   const [settled, setSettled] = useState(false);
@@ -35,6 +35,7 @@ export default function SolarSystem() {
   const contentReady = settled && displayed.value === selected && !displayed.exiting;
   const [secret, setSecret] = useState('');
   const heading = useRef<HTMLHeadingElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
   const returnFocus = useRef<HTMLElement | null>(null);
   const restoreFocus = useRef(false);
   const returnDestination = useRef<Destination | null>(null);
@@ -58,20 +59,12 @@ export default function SolarSystem() {
   );
   useEffect(() => {
     setMounted(true);
-    const motion = matchMedia('(prefers-reduced-motion: reduce)');
     const narrow = matchMedia('(max-width: 700px)');
     const sync = () => {
-      setSystemReduced(motion.matches);
       setMobile(narrow.matches);
-      if (motion.matches) setPhase(2);
     };
     sync();
-    motion.addEventListener('change', sync);
     narrow.addEventListener('change', sync);
-    const a = setTimeout(() => {
-      if (!motion.matches) setPhase((current) => (current === 2 ? 2 : 1));
-    }, 1900);
-    const b = setTimeout(() => setPhase(2), 4300);
     if (new URLSearchParams(location.search).has('fallback')) onError();
     else {
       try {
@@ -82,16 +75,28 @@ export default function SolarSystem() {
       }
     }
     return () => {
-      clearTimeout(a);
-      clearTimeout(b);
       if (secretTimer.current) clearTimeout(secretTimer.current);
-      motion.removeEventListener('change', sync);
       narrow.removeEventListener('change', sync);
     };
   }, [onError]);
   useEffect(() => {
     if (contentReady && displayed.value) heading.current?.focus({ preventScroll: true });
   }, [contentReady, displayed.value]);
+  const revealUniverse = useCallback(() => {
+    setJourney('revealing');
+    setMode('explore');
+    setSettled(false);
+  }, []);
+  const finishJourney = useCallback((keyboard: boolean) => {
+    setJourney('done');
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    // The footer becomes visible in this commit, so focus waits a frame.
+    requestAnimationFrame(() =>
+      document
+        .getElementById(keyboard ? `nav-${planets[0]!.id}` : 'orbit-navigation')
+        ?.focus({ preventScroll: true }),
+    );
+  }, []);
   const back = useCallback(() => {
     restoreFocus.current = true;
     setSelected(null);
@@ -124,24 +129,17 @@ export default function SolarSystem() {
     returnFocus.current =
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
     returnDestination.current = id;
-    setPhase(2);
     setMode('explore');
     setSelected(id);
     setSettled(failed || reduced);
     setVisited((v) => (v.includes(id) ? v : [...v, id]));
     window.scrollTo({ top: 0, behavior: reduced ? 'instant' : 'smooth' });
   }
-  function explore() {
-    setPhase(2);
-    setMode('explore');
-    setSettled(false);
-  }
   function ending() {
     returnFocus.current =
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
     setSelected(null);
     setMode('ending');
-    setPhase(2);
     setSettled(false);
     window.scrollTo({ top: 0, behavior: reduced ? 'instant' : 'smooth' });
   }
@@ -151,7 +149,6 @@ export default function SolarSystem() {
     );
     if (index !== undefined) setChapterIndex(index);
     setSelected(null);
-    setPhase(2);
     setMode('constellations');
     setSettled(failed || reduced);
     window.scrollTo({ top: 0, behavior: reduced ? 'instant' : 'smooth' });
@@ -159,7 +156,7 @@ export default function SolarSystem() {
   const current = planets.find((p) => p.id === displayed.value);
   return (
     <div
-      className={`universe-app mode-${mode} ${selected || displayed.value ? 'has-selection' : ''} ${phase < 2 ? 'in-prologue' : ''} ${reduced ? 'reduced-motion' : ''} ${fullMotion ? 'full-motion' : ''} ${paused ? 'motion-paused' : ''} ${!settled ? 'camera-travelling' : ''}`}
+      className={`universe-app mode-${mode} ${selected || displayed.value ? 'has-selection' : ''} ${journey !== 'done' ? 'in-journey' : ''} ${reduced ? 'reduced-motion' : ''} ${fullMotion ? 'full-motion' : ''} ${paused ? 'motion-paused' : ''} ${!settled ? 'camera-travelling' : ''}`}
     >
       <div className="space-backdrop" aria-hidden="true">
         <div className="nebula nebula-one" />
@@ -168,9 +165,10 @@ export default function SolarSystem() {
         {!reduced && !paused && <div className="shooting-star" />}
       </div>
       <div
+        ref={stage}
         className="scene-stage"
-        inert={mode === 'constellations'}
-        aria-hidden={mode === 'constellations'}
+        inert={mode === 'constellations' || journey !== 'done'}
+        aria-hidden={mode === 'constellations' || journey !== 'done'}
         aria-label="Interactive solar system. Use the planet navigation for keyboard access."
       >
         {failed ? (
@@ -197,7 +195,7 @@ export default function SolarSystem() {
         )}
       </div>
       <SolarConstellations
-        visible={phase === 2 && !selected && (mode === 'intro' || mode === 'explore')}
+        visible={journey === 'done' && !selected && mode === 'explore'}
         selected={chapterIndex}
         visited={starProgress.visited}
         onOpen={openConstellations}
@@ -219,45 +217,15 @@ export default function SolarSystem() {
         fallback={failed}
         onBack={back}
       />
-      {!reduced && (
-        <div
-          className={`prologue ${phase === 2 ? 'is-finished' : ''}`}
-          aria-hidden={phase === 2}
-          inert={phase === 2}
-        >
-          <div key={Math.min(phase, 1)}>
-            <span className="birth-star" aria-hidden="true">
-              ✧
-            </span>
-            <p>{couple.intro[Math.min(phase, 1)]}</p>
-          </div>
-          <button className="text-button" onClick={() => setPhase(2)}>
-            Skip introduction <span aria-hidden="true">↗</span>
-          </button>
-        </div>
-      )}
-      {phase === 2 && displayedMode.value === 'intro' && (
-        <section
-          className={`intro-copy ${displayedMode.exiting ? 'cinematic-exit' : ''}`}
-          aria-labelledby="universe-title"
-          inert={displayedMode.exiting}
-        >
-          <div className="intro-kicker">
-            <span />
-            Every possibility led to you
-            <span />
-          </div>
-          <h1 id="universe-title">
-            Our little universe
-            <span className="title-star" aria-hidden="true">
-              ✧
-            </span>
-          </h1>
-          <p>{couple.tagline}</p>
-          <button className="primary-button" onClick={explore}>
-            Explore our universe<span aria-hidden="true">↗</span>
-          </button>
-        </section>
+      {journey !== 'done' && (
+        <Journey
+          reduced={reduced}
+          failed={failed}
+          onMotionToggle={() => setFullMotion((value) => !value)}
+          stage={stage}
+          onReveal={revealUniverse}
+          onDone={finishJourney}
+        />
       )}
       {displayedMode.value === 'explore' && !selected && !displayed.value && (
         <div className="explore-copy">
@@ -319,23 +287,21 @@ export default function SolarSystem() {
         </section>
       )}
       <div className="universe-tools">
-        {systemReduced && (
-          <button
-            className="motion-preference"
-            onClick={() => {
-              setFullMotion((value) => !value);
-              setPaused(false);
-            }}
-            aria-pressed={fullMotion}
-            title={
-              fullMotion
-                ? 'Return to the system preference for reduced motion'
-                : 'Your system prefers reduced motion. Enable cinematic animations for this visit.'
-            }
-          >
-            {fullMotion ? 'Reduce motion' : 'Enable animations'}
-          </button>
-        )}
+        <button
+          className="motion-preference"
+          onClick={() => {
+            setFullMotion((value) => !value);
+            setPaused(false);
+          }}
+          aria-pressed={reduced}
+          title={
+            fullMotion
+              ? 'Reduce animations for this visit'
+              : 'Enable cinematic animations for this visit'
+          }
+        >
+          {fullMotion ? 'Reduce motion' : 'Enable animations'}
+        </button>
         <button
           className="tool-button"
           onClick={() => setPaused(!paused)}
@@ -377,11 +343,9 @@ export default function SolarSystem() {
             </span>
             {selected
               ? 'A world of our own'
-              : mode === 'intro'
-                ? 'Six little worlds. One shared story.'
-                : mobile
-                  ? 'Tap a planet to explore'
-                  : 'Drag to wander · Scroll to drift closer'}
+              : mobile
+                ? 'Tap a planet to explore'
+                : 'Drag to wander · Scroll to drift closer'}
           </span>
           <button className="text-button ending-link" onClick={mode === 'ending' ? back : ending}>
             {mode === 'ending'

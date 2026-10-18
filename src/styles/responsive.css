@@ -2,9 +2,6 @@
   .universe-app {
     min-height: 950px;
   }
-  .intro-copy {
-    top: 15%;
-  }
   .scene-stage {
     top: 25%;
     bottom: 130px;
@@ -46,17 +43,6 @@
     height: 88px;
     padding-top: 23px;
     padding-bottom: 23px;
-  }
-  .intro-copy {
-    top: 14%;
-  }
-  .intro-copy h1 {
-    font-size: 73px;
-    margin: 10px 0;
-  }
-  .intro-copy .primary-button {
-    margin-top: 19px;
-    min-height: 39px;
   }
   .scene-stage {
     top: 26%;
@@ -115,9 +101,6 @@
     width: 44%;
     margin-right: 5%;
   }
-  .intro-copy h1 {
-    font-size: 75px;
-  }
   .universe-tools {
     right: 3%;
   }
@@ -157,45 +140,6 @@
   .universe-app {
     min-height: 780px;
     height: 100svh;
-  }
-  .intro-copy {
-    top: 135px;
-    left: 7%;
-    right: 7%;
-  }
-  .intro-kicker {
-    font-size: 8px;
-    letter-spacing: 1.25px;
-    gap: 9px;
-  }
-  .intro-kicker > span {
-    width: 14px;
-  }
-  .intro-copy h1 {
-    font-size: clamp(49px, 10.8vw, 72px);
-    line-height: 0.98;
-    letter-spacing: -1.8px;
-    max-width: 310px;
-    margin: 20px 0 17px;
-  }
-  .title-star {
-    font-size: 21px;
-    right: -15px;
-    top: 0;
-  }
-  .intro-copy p {
-    font-size: 10px;
-    line-height: 1.9;
-    max-width: 240px;
-    margin: auto;
-    letter-spacing: 0.2px;
-  }
-  .intro-copy .primary-button {
-    margin-top: 23px;
-    font-size: 9px;
-    min-height: 43px;
-    padding: 0 17px;
-    gap: 20px;
   }
   .scene-stage {
     top: 32%;
@@ -472,12 +416,6 @@
   }
 }
 @media (max-width: 380px) {
-  .intro-copy h1 {
-    font-size: 48px;
-  }
-  .intro-kicker {
-    font-size: 7px;
-  }
   .planet-nav-list {
     gap: 0 8px;
   }
@@ -506,8 +444,5 @@
   }
   .universe-app:not(.full-motion) .scene-stage {
     transition: none;
-  }
-  .universe-app:not(.full-motion) .prologue {
-    display: none;
   }
 }

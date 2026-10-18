@@ -216,56 +216,6 @@ a {
 .scene-stage canvas:active {
   cursor: grabbing;
 }
-.intro-copy {
-  position: absolute;
-  top: 16%;
-  left: 0;
-  right: 0;
-  text-align: center;
-  z-index: 12;
-  pointer-events: none;
-  animation: reveal 1.3s both;
-}
-.intro-copy button {
-  pointer-events: auto;
-}
-.intro-kicker {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 14px;
-  font-size: 10px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--color-gold);
-}
-.intro-kicker > span {
-  width: 24px;
-  height: 1px;
-  background: var(--color-line);
-}
-.intro-copy h1 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(56px, 6.2vw, 104px);
-  line-height: 1.05;
-  letter-spacing: -3px;
-  margin: 14px 0 14px;
-  position: relative;
-  display: inline-block;
-}
-.title-star {
-  position: absolute;
-  font-size: 26px;
-  color: var(--color-gold);
-  right: -33px;
-  top: 6px;
-}
-.intro-copy p {
-  font-size: 12px;
-  letter-spacing: 0.5px;
-  color: var(--color-muted);
-}
 .primary-button {
   border: 1px solid rgb(218 198 164 / 0.45);
   border-radius: 3px;
@@ -293,9 +243,6 @@ a {
 .primary-button > span {
   font-size: 19px;
   font-weight: 400;
-}
-.intro-copy .primary-button {
-  margin-top: 26px;
 }
 .planet-label {
   padding: 7px 14px;
@@ -632,40 +579,6 @@ a {
   margin-bottom: 15px;
   animation: breathe 2s infinite;
 }
-.prologue {
-  position: absolute;
-  inset: 0;
-  z-index: 40;
-  background: var(--color-space);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 30px;
-}
-.prologue > div {
-  animation: prologue 2.4s both;
-}
-.prologue p {
-  font-family: var(--font-display);
-  font-size: clamp(26px, 4vw, 45px);
-  color: var(--color-ink);
-}
-.birth-star {
-  display: block;
-  font-size: 34px;
-  color: var(--color-gold);
-  margin-bottom: 30px;
-  filter: drop-shadow(0 0 18px var(--color-gold));
-}
-.prologue > .text-button {
-  position: absolute;
-  bottom: 50px;
-}
-.in-prologue .universe-footer,
-.in-prologue .universe-tools {
-  visibility: hidden;
-}
 .secret-message {
   position: fixed;
   z-index: 60;
@@ -820,20 +733,6 @@ body:has(.no-script) .universe-app {
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-@keyframes prologue {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  35%,
-  85% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
   }
 }
 @keyframes breathe {

@@ -3,7 +3,12 @@ export const couple = {
   names: ['Lynn', 'Duvan'] as const,
   startDate: '2025-04-14',
   title: 'Our Little Universe',
-  intro: ['Every story begins somewhere.', 'Ours began among billions of possibilities.'],
+  /** «Un pequeño viaje»: one phrase per tap; the last one is where the journey arrives. */
+  journey: [
+    'Hay lugares a los que siempre quiero volver',
+    'Algunos no aparecen en los mapas',
+    'El mío eres tú',
+  ],
   tagline: 'A small universe made of memories, dreams and us.',
   dedication: 'Two lives. One little universe.',
   ending: ['Our universe is still expanding.', 'And this is only the beginning.'],

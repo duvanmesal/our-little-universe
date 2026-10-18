@@ -9,6 +9,7 @@ import Planet from './Planet';
 import Orbit from './Orbit';
 import CameraController from './CameraController';
 import SceneFade from './SceneFade';
+import { scene } from '../../config/scene';
 
 interface Props {
   selected: Destination | null;
@@ -65,7 +66,7 @@ export default function UniverseCanvas(props: Props) {
   return (
     <Canvas
       frameloop={reduced ? 'demand' : 'always'}
-      camera={{ position: [0, 3, 7], fov: 32, near: 0.1, far: 180 }}
+      camera={{ position: scene.introEye, fov: scene.fov, near: 0.1, far: 180 }}
       dpr={[1, mobile ? 1.25 : 1.6]}
       gl={{ alpha: true, antialias: !mobile, powerPreference: 'low-power' }}
       onCreated={onReady}

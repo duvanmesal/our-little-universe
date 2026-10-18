@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Vector3 } from 'three';
 import { cinematicEase, motion } from '../../config/motion';
+import { scene } from '../../config/scene';
 import type { Destination, Mode } from '../../types/universe';
 
 interface Props {
@@ -24,6 +25,7 @@ export default function CameraController({
   const { camera, gl, invalidate } = useThree();
   const target = useRef(new Vector3());
   const drag = useRef({ x: 0, y: 0, zoom: 0, down: false, px: 0, py: 0 });
+  const previousMode = useRef(mode);
   const flight = useMemo(
     () => ({
       fromEye: new Vector3(),
@@ -45,6 +47,9 @@ export default function CameraController({
     flight.fromLook.copy(target.current);
     flight.elapsed = 0;
     flight.active = true;
+    // Leaving the dedication opens the frame more slowly than an ordinary return.
+    const opening = previousMode.current === 'intro';
+    previousMode.current = mode;
     if (selected) {
       flight.toLook.copy(positions.get(selected) ?? flight.offset.set(0, 0, 0));
       flight.toLook.x += mobile ? 0 : 2.1;
@@ -55,8 +60,12 @@ export default function CameraController({
       flight.toLook.set(0, 3, 0);
       flight.toEye.set(8, 18, mobile ? 55 : 42);
       flight.duration = motion.camera.ending;
+    } else if (mode === 'intro') {
+      flight.toLook.set(0, 0, 0);
+      flight.toEye.set(...scene.introEye);
+      flight.duration = motion.camera.intro;
     } else {
-      const multiplier = mode === 'ending' ? 1.3 : mode === 'intro' ? 1.06 : 1;
+      const multiplier = mode === 'ending' ? 1.3 : 1;
       flight.toLook.set(0, 0, 0);
       flight.toEye.set(
         drag.current.x,
@@ -66,7 +75,7 @@ export default function CameraController({
       flight.duration =
         mode === 'ending'
           ? motion.camera.ending
-          : mode === 'intro'
+          : opening
             ? motion.camera.intro
             : motion.camera.overview;
     }

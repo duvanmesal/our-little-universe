@@ -10,45 +10,12 @@
     opacity 1.4s ease;
 }
 
-.prologue {
-  opacity: 1;
-  visibility: visible;
-  transition:
-    opacity 1.15s ease,
-    visibility 0s;
-}
-.prologue.is-finished {
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transition:
-    opacity 1.15s ease,
-    visibility 0s 1.15s;
-}
-.intro-copy {
-  animation: cinematic-arrive 1.5s 0.25s var(--ease-cinema) both;
-}
-.intro-copy .intro-kicker {
-  animation: cinematic-arrive 1s 0.3s both;
-}
-.intro-copy h1 {
-  animation: cinematic-arrive 1.4s 0.4s var(--ease-cinema) both;
-}
-.intro-copy p {
-  animation: cinematic-arrive 1.2s 0.55s var(--ease-cinema) both;
-}
-.intro-copy .primary-button {
-  animation: cinematic-arrive 1s 0.7s var(--ease-cinema) both;
-}
-
-.intro-copy,
 .explore-copy,
 .ending-copy {
   transition:
     opacity 0.24s ease,
     transform 0.24s var(--ease-departure);
 }
-.intro-copy.cinematic-exit,
 .ending-copy.cinematic-exit {
   animation: none;
   opacity: 0;
@@ -229,10 +196,10 @@
     min-height: 0;
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  .universe-app:not(.full-motion) *,
-  .universe-app:not(.full-motion) *::before,
-  .universe-app:not(.full-motion) *::after {
+.universe-app.reduced-motion {
+  & *,
+  & *::before,
+  & *::after {
     animation: none !important;
     transition: none !important;
   }

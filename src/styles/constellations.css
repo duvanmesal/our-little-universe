@@ -627,19 +627,6 @@
   .sky-constellation {
     width: 96px;
   }
-  .mode-intro .sky-constellation {
-    width: 80px;
-  }
-  .mode-intro .sky-figure {
-    height: 64px;
-  }
-  .mode-intro .sky-0 {
-    left: 3%;
-    top: 41%;
-  }
-  .mode-intro .sky-title {
-    font-size: 11px;
-  }
   .sky-figure {
     height: 75px;
   }

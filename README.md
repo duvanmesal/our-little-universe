@@ -25,13 +25,13 @@ Conserva `package-lock.json`. Para instalaciones reproducibles usa `npm ci`. Rea
 
 ## Recorrido
 
-La introducción puede saltarse. «Explore our universe» inicia las órbitas. Selecciona un planeta o utiliza el navegador inferior con teclado. La cámara se acerca gradualmente y revela su contenido. «Back to universe» o Escape devuelve a la vista general. Puedes arrastrar suavemente la cámara y usar la rueda para acercarte o alejarte dentro de límites; el contenido no utiliza scrollbars internas. El control de pausa detiene el movimiento ambiental. «Our universe is still expanding» abre el final.
+La página abre con «Un pequeño viaje»: tres frases que avanzan con cada toque, clic, Enter, espacio o flecha. Con «Descubre nuestro universo», la estrella dorada crece hasta convertirse en el sol y la cámara se abre hacia el sistema completo. «Saltar introducción» lleva directamente al universo. Selecciona un planeta o utiliza el navegador inferior con teclado. La cámara se acerca gradualmente y revela su contenido. «Back to universe» o Escape devuelve a la vista general. Puedes arrastrar suavemente la cámara y usar la rueda para acercarte o alejarte dentro de límites; el contenido no utiliza scrollbars internas. El control de pausa detiene el movimiento ambiental. «Our universe is still expanding» abre el final.
 
 La galería tiene controles para recorrer sus tres recuerdos; las aventuras tienen puntos seleccionables; los sueños pueden marcarse como realizados; el generador elige una cita sin repetir inmediatamente la anterior. Los sonidos se reproducen exclusivamente al pulsar Play y se detienen al cambiar de sección.
 
 ## Personalizar
 
-- **Nombres y fecha:** `src/config/couple.ts`, propiedades `names` y `startDate` (YYYY-MM-DD). También contiene introducción, dedicatoria, tagline y final. Todos los nombres y fechas iniciales son demostrativos.
+- **Nombres y fecha:** `src/config/couple.ts`, propiedades `names` y `startDate` (YYYY-MM-DD). También contiene las frases de la introducción (`journey`), dedicatoria, tagline y final. Todos los nombres y fechas iniciales son demostrativos.
 - **Recuerdos:** edita `src/data/memories.ts`. Agrega objetos con `image`, `title`, `date`, `description` y `alt`. Coloca tus fotos en `public/images/memories/` y referencia `/images/memories/foto.webp`. Usa WebP/AVIF optimizado, idealmente <250 KB por imagen. No incluyas `public` en la URL. Las ilustraciones SVG incluidas son originales y reemplazables.
 - **Timeline:** `src/data/timeline.ts`. Una fecha vacía identifica el hito «Today».
 - **Música:** `src/data/songs.ts`. Copia audio propio o con licencia en `public/audio/` y agrega `src: '/audio/mi-cancion.mp3'`. `src` es opcional; sin él, Play muestra un estado pendiente. Los tres WAV incluidos son breves composiciones matemáticas originales, no grabaciones de canciones comerciales. `node scripts/generate-audio.mjs` permite regenerarlos.
@@ -74,7 +74,7 @@ Astro renderiza estructura, metadata y cabecera sin hidratación. La única isla
 
 - Navegación real con botones, foco visible, enlace para saltar al navegador y Escape para volver.
 - El foco pasa al título cuando termina la transición y vuelve al control de origen.
-- `prefers-reduced-motion` elimina la introducción temporal, las órbitas, el parallax y las transiciones; la cámara cambia sin animación.
+- Las animaciones comienzan activas. **Reducir movimiento** en la introducción o **Reduce motion** en el universo permite desactivarlas durante la visita: las frases se resuelven con fundidos simples, el cielo queda estático y la cámara cambia sin animación.
 - Fallback funcional cuando WebGL 2 no está disponible, se pierde su contexto o falla el renderizado. Usa `/?fallback` para comprobarlo de forma reproducible.
 - Sin JavaScript hay una versión estática con todos los contenidos; el generador necesita JavaScript y ofrece la lista de ideas como alternativa.
 - DPR limitado a 1.6 en escritorio y 1.25 en móvil; menos estrellas y sin antialias en móvil. Sin postprocesado de pantalla completa. El resplandor del sol utiliza un sprite procedural ligero.
@@ -108,7 +108,7 @@ En `src/config/couple.ts`, establece `siteUrl` con la URL HTTPS definitiva para 
 
 La cámara utiliza recorridos con duración definida y aceleración/desaceleración suave; el contenido espera a la llegada real, y una selección nueva interrumpe el recorrido desde la posición actual. Los planetas secundarios y las órbitas se atenúan gradualmente. Los paneles y recuerdos conservan brevemente el contenido saliente para completar su fundido. La ruleta mantiene su rotación final y revela el resultado sin parpadeos de texto.
 
-Los tiempos de la cámara y las salidas de contenido se ajustan en `src/config/motion.ts`; los estilos de entrada y microinteracciones están en `src/styles/motion.css`. El movimiento reducido evita esperas y animaciones. Si el sistema solicita movimiento reducido, aparece **Enable animations** para activarlas voluntariamente durante esa visita; **Reduce motion** vuelve a respetar la preferencia del sistema. No se cambia ningún ajuste del equipo.
+Los tiempos de la cámara y las salidas de contenido se ajustan en `src/config/motion.ts`; los estilos de entrada y microinteracciones están en `src/styles/motion.css`. Las animaciones se activan por defecto incluso si el sistema prefiere movimiento reducido. El control de movimiento está disponible desde la introducción y permite reducirlas o reactivarlas durante la visita. No se cambia ningún ajuste del equipo.
 
 **Constellations** abre tres capítulos de recuerdos conectados: The beginning, Places we keep y Ordinary magic. Cada estrella abre una foto, fecha y descripción; explorar sus extremos revela una conexión y completar el capítulo descubre una frase. La navegación funciona con teclado, móvil, movimiento reducido y fallback SVG. El progreso se guarda en este dispositivo y puede desactivarse con **Remember stars on this device**. Los nueve recuerdos son demo y se comparten con la galería: cambia imágenes y textos en `src/data/memories.ts`, y figuras y conexiones en `src/data/constellations.ts`. Consulta [Constelaciones de nuestra historia](docs/CONSTELLATIONS.md) para detalles.
 

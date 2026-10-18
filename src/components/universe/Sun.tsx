@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei/web/Html.js';
 import { AdditiveBlending, CanvasTexture, type Mesh, type ShaderMaterial } from 'three';
 import { sunFragment, surfaceVertex } from './materials';
+import { scene } from '../../config/scene';
 
 export default function Sun({
   reduced,
@@ -49,7 +50,7 @@ export default function Sun({
           onSelect();
         }}
       >
-        <sphereGeometry args={[0.88, mobile ? 24 : 48, mobile ? 16 : 32]} />
+        <sphereGeometry args={[scene.sunRadius, mobile ? 24 : 48, mobile ? 16 : 32]} />
         <shaderMaterial
           ref={material}
           uniforms={uniforms}
