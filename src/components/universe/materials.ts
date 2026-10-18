@@ -24,6 +24,7 @@ const noise = /* glsl */ `
 export const surfaceFragment = /* glsl */ `
   uniform vec3 uColor;
   uniform vec3 uDark;
+  uniform float uDetail;
   uniform float uSeed;
   uniform float uTime;
   uniform float uOpacity;
@@ -33,7 +34,9 @@ export const surfaceFragment = /* glsl */ `
   ${noise}
   void main() {
     vec3 p = vPosition * 3.0 + uSeed;
-    float cloud = fbm(p*2.0 + fbm(p*3.0));
+    float cloud = uDetail < 0.5
+      ? noise3(p*2.0)*.7 + noise3(p*4.0)*.3
+      : fbm(p*2.0 + fbm(p*3.0));
     float bands = sin(vPosition.y*23.0 + cloud*8.0 + uSeed) * .5 + .5;
     float detail = noise3(p*65.0);
     vec3 base = mix(uDark,uColor,clamp(cloud*.85+bands*.32+detail*.12,0.0,1.0));

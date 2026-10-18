@@ -135,6 +135,9 @@ export default function CameraController({
       if (progress === 1) {
         flight.active = false;
         onSettled();
+      } else if (mode !== 'intro') {
+        // Continue camera travel even when ambient motion is paused (demand rendering).
+        invalidate();
       }
     } else if (!selected && mode === 'explore') {
       flight.toEye.set(
@@ -143,6 +146,7 @@ export default function CameraController({
         (mobile ? 38 : 22) + drag.current.zoom,
       );
       camera.position.lerp(flight.toEye, reduced ? 1 : 1 - Math.exp(-dt * 4.5));
+      if (!reduced && camera.position.distanceToSquared(flight.toEye) > 0.0001) invalidate();
     }
     camera.lookAt(target.current);
   });

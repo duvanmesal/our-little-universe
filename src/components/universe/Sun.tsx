@@ -59,7 +59,7 @@ export default function Sun({
         />
       </mesh>
       <pointLight color="#ffd3a2" intensity={12} distance={24} decay={2} />
-      {
+      {labels && (
         <Html position={[0, -1.7, 0]} center zIndexRange={[10, 0]}>
           <button
             className={`planet-label sun-label ${labels ? '' : 'label-hidden'}`}
@@ -72,7 +72,7 @@ export default function Sun({
             <span>The center of it all</span>
           </button>
         </Html>
-      }
+      )}
     </group>
   );
 }

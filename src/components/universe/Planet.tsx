@@ -10,6 +10,7 @@ interface Props {
   moving: boolean;
   reduced: boolean;
   mobile: boolean;
+  active: boolean;
   labels: boolean;
   positions: Map<string, Vector3>;
   onSelect: () => void;
@@ -20,6 +21,7 @@ export default function Planet({
   moving,
   reduced,
   mobile,
+  active,
   labels,
   positions,
   onSelect,
@@ -38,11 +40,12 @@ export default function Planet({
       uSeed: { value: p.seed },
       uTime: { value: 0 },
       uOpacity: { value: 1 },
+      uDetail: { value: mobile ? 0 : 1 },
     }),
-    [p],
+    [p, mobile],
   );
   useFrame((_, delta) => {
-    if (!orbit.current || !body.current) return;
+    if (!active || !orbit.current || !body.current) return;
     const dt = Math.min(delta, 0.05);
     if (moving && !reduced) angle.current += dt * p.speed;
     orbit.current.position.set(
@@ -126,7 +129,7 @@ export default function Planet({
             <meshBasicMaterial color={p.color} />
           </mesh>
         ))}
-      {
+      {labels && (
         <Html position={[0, -p.size - 0.72, 0]} center zIndexRange={[10, 0]}>
           <button
             className={`planet-label ${hovered ? 'is-hovered' : ''} ${labels ? '' : 'label-hidden'}`}
@@ -141,7 +144,7 @@ export default function Planet({
             <span>{p.description}</span>
           </button>
         </Html>
-      }
+      )}
     </group>
   );
 }

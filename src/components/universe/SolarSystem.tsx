@@ -183,6 +183,8 @@ export default function SolarSystem() {
                   reduced={reduced}
                   paused={paused}
                   mobile={mobile}
+                  active={journey !== 'story' && (mode !== 'constellations' || !settled)}
+                  travelling={!settled}
                   onSelect={select}
                   onReady={onReady}
                   onError={onError}

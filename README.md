@@ -77,7 +77,8 @@ Astro renderiza estructura, metadata y cabecera sin hidratación. La única isla
 - Las animaciones comienzan activas. **Reducir movimiento** en la introducción o **Reduce motion** en el universo permite desactivarlas durante la visita: las frases se resuelven con fundidos simples, el cielo queda estático y la cámara cambia sin animación.
 - Fallback funcional cuando WebGL 2 no está disponible, se pierde su contexto o falla el renderizado. Usa `/?fallback` para comprobarlo de forma reproducible.
 - Sin JavaScript hay una versión estática con todos los contenidos; el generador necesita JavaScript y ofrece la lista de ideas como alternativa.
-- DPR limitado a 1.6 en escritorio y 1.25 en móvil; menos estrellas y sin antialias en móvil. Sin postprocesado de pantalla completa. El resplandor del sol utiliza un sprite procedural ligero.
+- DPR limitado a 1.5 en escritorio y 1.1 en móvil. Si se mantienen tiempos de cuadro mayores a 25 ms, baja a DPR 1, con geometría y superficies más ligeras. El fondo tiene 1400 estrellas en escritorio y 650 en móvil o calidad reducida. Sin antialias en móvil ni postprocesado de pantalla completa.
+- El universo se prepara con renderizado bajo demanda detrás de la introducción y deja de dibujarse al ocultar la pestaña. La pausa y la vista de constelaciones evitan renderizado continuo innecesario; los recorridos de cámara siguen funcionando. Las etiquetas 3D solo se montan cuando son visibles y los planetas ocultos dejan de actualizarse.
 - Sin texturas planetarias externas, sin servicios de imágenes y sin llamadas externas de fuentes. Dos familias tipográficas instaladas y servidas localmente.
 - Los objetos usados por la cámara se reutilizan. No se actualiza estado React en cada frame. Se limpian los eventos, temporizadores y el audio al desmontar.
 

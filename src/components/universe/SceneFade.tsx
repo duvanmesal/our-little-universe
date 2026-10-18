@@ -21,6 +21,7 @@ export default function SceneFade({
   const group = useRef<Group>(null);
   const opacity = useRef(shown ? 1 : 0);
   const surfaces = useRef<Surface[]>([]);
+  const lastOpacity = useRef(-1);
   useLayoutEffect(() => {
     const found = new Set<Material>();
     group.current?.traverse((object) => {
@@ -43,6 +44,8 @@ export default function SceneFade({
       : opacity.current +
         (goal - opacity.current) * (1 - Math.exp(-Math.min(delta, 0.05) * motion.fadeSpeed));
     if (Math.abs(opacity.current - goal) < 0.002) opacity.current = goal;
+    if (opacity.current === lastOpacity.current) return;
+    lastOpacity.current = opacity.current;
     group.current.visible = opacity.current > 0;
     for (const surface of surfaces.current) {
       const { material } = surface;
